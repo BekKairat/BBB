@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String result = resultView.getText().toString();
-                if( ! result.contains(",")){
-                    resultView.append(",");
+                if( ! result.contains(".")){
+                    resultView.append(".");
                 }
             }
         });
