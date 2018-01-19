@@ -116,11 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private void changeOperation(char execute){
         if(operation == '0'){
             operation = execute;
-            if (oldNumber == 0){
-                oldNumber = Float.parseFloat(resultView.getText().toString());
-            } else {
-                oldNumber = getResult(oldNumber);
-            }
+            oldNumber = Float.parseFloat(resultView.getText().toString());
             resultView.setText("0");
         } else {
             equalsMethod(false);
