@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 resultView.setText("0");
                 operation = '0';
                 oldNumber = 0;
+                changeButtonState(true);
             }
         });
 
@@ -125,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
             equalsMethod(false);
             operation = execute;
         }
+
+        if( ! btnComma.isEnabled()){
+            changeButtonState(true);
+        }
     }
 
     private void changeViewText(String id){
@@ -170,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         if (isFinal){
             resultView.setText(String.valueOf(oldNumber));
             operation = '0';
+            changeButtonState(false);
         } else {
             resultView.setText(String.valueOf("0"));
         }
@@ -190,5 +196,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
+    private void changeButtonState(boolean stateChange){
+        for (int i = 0; i < buttons.length; i++){
+            buttons[i].setEnabled(stateChange);
+        }
+
+        btnComma.setEnabled(stateChange);
+    }
 }
