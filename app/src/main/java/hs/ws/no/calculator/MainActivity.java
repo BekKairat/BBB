@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btnEquals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                equalsMethod();
+                equalsMethod(true);
             }
         });
 
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 resultView.setText("0");
                 operation = '0';
+                oldNumber = 0;
             }
         });
 
@@ -114,8 +115,15 @@ public class MainActivity extends AppCompatActivity {
     private void changeOperation(char execute){
         if(operation == '0'){
             operation = execute;
-            oldNumber = Float.parseFloat(resultView.getText().toString());
+            if (oldNumber == 0){
+                oldNumber = Float.parseFloat(resultView.getText().toString());
+            } else {
+                oldNumber = getResult(oldNumber);
+            }
             resultView.setText("0");
+        } else {
+            equalsMethod(false);
+            operation = execute;
         }
     }
 
@@ -150,32 +158,37 @@ public class MainActivity extends AppCompatActivity {
         return x + y;
     }
 
-    public void equalsMethod(){
+    public void equalsMethod(boolean isFinal){
         if (operation == '0') return;
 
         float current = Float.parseFloat(resultView.getText().toString());
 
         if(current == 0) return;
 
-        float result;
+        oldNumber = getResult(current);
 
+        if (isFinal){
+            resultView.setText(String.valueOf(oldNumber));
+            operation = '0';
+        } else {
+            resultView.setText(String.valueOf("0"));
+        }
+    }
+
+    public float getResult(float current){
         switch(operation){
             case '*':
-                result = mulitply(current, oldNumber);
-                break;
+                return mulitply(current, oldNumber);
             case '/':
-                result = divide(oldNumber, current);
-                break;
+                return divide(oldNumber, current);
             case '-':
-                result = subtract(oldNumber, current);
-                break;
+                return subtract(oldNumber, current);
             case '+':
-                result = addition(current, oldNumber);
-                break;
+                return addition(current, oldNumber);
             default:
-                return;
+                return oldNumber;
         }
-
-        resultView.setText(String.valueOf(result));
     }
+
+    
 }
