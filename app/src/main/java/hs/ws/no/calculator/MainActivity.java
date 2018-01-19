@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnEquals;
     private TextView resultView;
     private Button[] buttons = new Button[10];
+    private float oldNumber;
+    private char operation = '0';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,49 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnEquals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                equalsMethod();
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                resultView.setText("0");
+                operation = '0';
+            }
+        });
+
+        btnDivide.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                changeOperation('/');
+            }
+        });
+
+        btnMultiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOperation('*');
+            }
+        });
+
+        btnSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOperation('-');
+            }
+        });
+
+        btnAddition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOperation('+');
+            }
+        });
     }
 
     private void initFields(){
@@ -63,6 +108,15 @@ public class MainActivity extends AppCompatActivity {
         btnAddition = (ImageButton) findViewById(R.id.btnAddition);
         btnEquals = (ImageButton) findViewById(R.id.btnEquals);
         resultView = (TextView) findViewById(R.id.resultView);
+        oldNumber = 0;
+    }
+
+    private void changeOperation(char execute){
+        if(operation == '0'){
+            operation = execute;
+            oldNumber = Float.parseFloat(resultView.getText().toString());
+            resultView.setText("0");
+        }
     }
 
     private void changeViewText(String id){
@@ -94,5 +148,34 @@ public class MainActivity extends AppCompatActivity {
 
     public float addition(float x, float y){
         return x + y;
+    }
+
+    public void equalsMethod(){
+        if (operation == '0') return;
+
+        float current = Float.parseFloat(resultView.getText().toString());
+
+        if(current == 0) return;
+
+        float result;
+
+        switch(operation){
+            case '*':
+                result = mulitply(current, oldNumber);
+                break;
+            case '/':
+                result = divide(oldNumber, current);
+                break;
+            case '-':
+                result = subtract(oldNumber, current);
+                break;
+            case '+':
+                result = addition(current, oldNumber);
+                break;
+            default:
+                return;
+        }
+
+        resultView.setText(String.valueOf(result));
     }
 }
